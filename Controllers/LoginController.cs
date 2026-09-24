@@ -56,16 +56,16 @@ public class LoginController : ControllerBase
 		DateTime expiresDate = DateTime.UtcNow.AddMinutes(30);
 
 		//	產生 token
-		string token =  core.get_token();
+		string token_str =  core.get_token();
 
 		string update_login_expired_time = """
-		UPDATE user SET `expired_date` = '@expired_date' , `token` = '@token' WHERE `account` = @account
+		UPDATE user SET `expired_date` = @expired_date , `token` = @token , `login_status` = 1 WHERE `account` = @account
 		""";
 		var update_parameters = new Dictionary<string, object>
 		{
 			{ "@account", user.Account },
-			{ "@expired_date",update_login_expired_time},
-			{ "@token",token}
+			{ "@expired_date",expiresDate},
+			{ "@token",token_str}
 		};
 
 		int update_result = core.Execute(update_login_expired_time, update_parameters);
@@ -74,7 +74,7 @@ public class LoginController : ControllerBase
 			{
 				status = "0",
 				msg = "登入成功",	
-				token = token
+				token = token_str
 			};
 		} else
 		{

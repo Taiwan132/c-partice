@@ -71,7 +71,7 @@ public class RegisterController : ControllerBase
 
 		// 準備寫入 db user
 		string insert_sql = """
-		INSERT INTO user (account,password,Name,Email,token,expired_date) VALUE (@account,@password,@Name,@Email,@token,@expired_date)
+		INSERT INTO user (account,password,Name,Email,token,expired_date,login_status) VALUE (@account,@password,@Name,@Email,@token,@expired_date,1)
 		""";
 
 		//	產生 token
